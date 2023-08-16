@@ -18,8 +18,8 @@ const mongoose = require ('mongoose')
     //mongoose
     mongoose.Promise =  global.Promise;
     mongoose.connect('mongodb://localhost/blogapp', {
-        useNewUrlParser: true
-        //useUnifiedTopology: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     }).then(() => {
         console.log('Mongodb connected!')
         }).catch((error)=>{
