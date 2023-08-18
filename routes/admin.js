@@ -13,8 +13,12 @@ router.get('/posts', (req, res)=>{
 })
 
 router.get('/categorias', (req, res)=>{
-    
-    res.render('admin/categorias')
+    Categoria.find().lean().sort({date: 'desc'}).then((categorias)=>{
+        res.render('admin/categorias', {categorias: categorias})
+    }).catch((error)=>{
+        req.flash('error_msg', 'Houve um erro ao listar as Categorias')
+        res.redirect('/admin')
+    })
 })
 
 router.get('/categorias/add', (req, res)=>{
@@ -46,11 +50,23 @@ router.post('/categorias/nova', (req, res)=>{
         })
         
         new Categoria(novaCategoria).save().then(()=>{
-            console.log('Categoria criada com sucesso.')
+            req.flash('success_msg', 'Categoria criada com sucesso!')
+            res.redirect('/admin/categorias')
         }).catch((err)=>{
-            console.log(`Houve um erro: ${err}`)
+            req.flash('error_msg', 'Falha ao salvar Categoria!')
+            res.redirect('/admin')
         })
     }
+})
+
+router.get('/categorias/edit/:id', (req, res)=>{
+    Categoria.findOne({_id:req.params.id}).lean().then((categoria)=>{
+        res.render('admin/editcategorias', {categoria: categoria})
+    }).catch((error)=>{
+        req.flash('error_msg', 'Essa categoria não existe')
+        res.redirect('/admin/categorias')
+    })
+    
 })
 
 router.get('/teste', (req, res)=>{
