@@ -17,3 +17,5 @@
   http//localhost/8081/admin/categorias/edit/:id
   ```
   
+## License
+[MIT license](https://github.com/Lucasasdev/form-blog-api/blob/master/LICENSE.md)
